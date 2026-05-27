@@ -19,7 +19,7 @@
         }
         #contenidoPDF {
             background: white;
-            padding: 8px;
+            padding: 5px;
             width: 210mm;
             max-width: 210mm;
             margin: 0 auto;
@@ -148,10 +148,6 @@
         #contenidoPDF .firmas {
             page-break-inside: avoid;
         }
-        #contenidoPDF .break-after {
-            page-break-after: always;
-            break-after: page;
-        }
         @media (max-width: 768px) {
             #contenidoPDF {
                 padding: 5px;
@@ -184,7 +180,6 @@
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
                 <h2>DIRECCION GENERAL DE CENTRO DE FORMACIÓN PARA EL TRABAJO</h2>
-                <br>
                 <h1>Solicitud de Inscripción</h1>
                 <h2>(SI-01)</h2>
             </div>
@@ -323,7 +318,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario break-after">
+        <section class="seccion-formulario">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -348,7 +343,6 @@
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
                 <h2>DIRECCION GENERAL DE CENTRO DE FORMACIÓN PARA EL TRABAJO</h2>
-                <br>
                 <h1>Solicitud de Inscripción</h1>
                 <h2>(SI-01)</h2>
             </div>
@@ -622,7 +616,7 @@
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css', 'legacy'], after: '.break-after' }
+                pagebreak: { mode: ['css', 'legacy'] }
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
