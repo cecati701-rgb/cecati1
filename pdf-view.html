@@ -77,6 +77,47 @@
         #contenidoPDF .checkbox-group label {
             font-size: 8px;
         }
+        #contenidoPDF .documentacion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        #contenidoPDF .documentacion-grid label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            padding: 6px;
+            background: #f9f9f9;
+            border-radius: 3px;
+        }
+        #contenidoPDF .documentacion-grid input[type="checkbox"] {
+            width: auto;
+            padding: 0;
+        }
+        #contenidoPDF .seccion-extranjeros {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff8e1;
+            border-left: 3px solid #ffc107;
+            border-radius: 3px;
+        }
+        #contenidoPDF .seccion-extranjeros h4 {
+            margin-bottom: 8px;
+            color: #ffc107;
+            font-size: 9px;
+        }
+        #contenidoPDF .seccion-extranjeros label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+        }
+        #contenidoPDF .seccion-extranjeros input[type="checkbox"] {
+            width: auto;
+            padding: 0;
+        }
         #contenidoPDF .firmas {
             gap: 15px;
             margin-top: 10px;
@@ -104,6 +145,27 @@
         }
         .pagebreak {
             page-break-before: always;
+        }
+        @media (max-width: 768px) {
+            #contenidoPDF {
+                padding: 5px;
+                font-size: 8px;
+            }
+            #contenidoPDF .documentacion-grid {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+            #contenidoPDF .grid-2,
+            #contenidoPDF .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            #contenidoPDF .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            #contenidoPDF .logo {
+                width: 60px;
+            }
         }
     </style>
 </head>
@@ -257,25 +319,20 @@
 
         <section class="seccion-formulario">
             <h3>Documentación Entregada</h3>
-            <div class="grid-2">
-                <div class="checkbox-group">
-                    <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
-                    <label><input type="checkbox" id="curpDoc" disabled> CURP</label>
-                    <label><input type="checkbox" id="ine" disabled> INE</label>
-                    <label><input type="checkbox" id="domicilio" disabled> Comprobante domicilio</label>
-                    <label><input type="checkbox" id="cartillaMilitar" disabled> Cartilla del servicio militar nacional</label>
-                </div>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" id="licenciaManejo" disabled> Licencia de manejo</label>
-                    <label><input type="checkbox" id="credencialImssIssste" disabled> Credencial de IMSS o ISSSTE</label>
-                    <label><input type="checkbox" id="comprobanteEstudios" disabled> Comprobante de estudios</label>
-                    <label><input type="checkbox" id="fotografias" disabled> Dos fotografías</label>
-                    <label><input type="checkbox" id="cartillaVacunacion" disabled> Cartilla nacional de vacunación o de salud</label>
-                </div>
+            <div class="documentacion-grid">
+                <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
+                <label><input type="checkbox" id="curpDoc" disabled> CURP</label>
+                <label><input type="checkbox" id="ine" disabled> INE</label>
+                <label><input type="checkbox" id="domicilio" disabled> Comprobante domicilio</label>
+                <label><input type="checkbox" id="cartillaMilitar" disabled> Cartilla del servicio militar nacional</label>
+                <label><input type="checkbox" id="licenciaManejo" disabled> Licencia de manejo</label>
+                <label><input type="checkbox" id="credencialImssIssste" disabled> Credencial de IMSS o ISSSTE</label>
+                <label><input type="checkbox" id="comprobanteEstudios" disabled> Comprobante de estudios</label>
+                <label><input type="checkbox" id="fotografias" disabled> Dos fotografías</label>
+                <label><input type="checkbox" id="cartillaVacunacion" disabled> Cartilla nacional de vacunación o de salud</label>
             </div>
-            <br>
-            <h4>Extranjeros</h4>
-            <div class="checkbox-group">
+            <div class="seccion-extranjeros">
+                <h4>Extranjeros</h4>
                 <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
             </div>
         </section>
@@ -552,7 +609,10 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    letterRendering: true
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth
                 },
                 jsPDF: {
                     unit: 'mm',
