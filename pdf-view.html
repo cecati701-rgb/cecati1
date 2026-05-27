@@ -20,9 +20,11 @@
         #contenidoPDF {
             background: white;
             padding: 8px;
+            width: min(100%, 216mm);
             max-width: 216mm;
             margin: 0 auto;
             font-size: 9px;
+            box-sizing: border-box;
         }
         #contenidoPDF .header {
             margin-bottom: 8px;
@@ -547,7 +549,7 @@
         document.getElementById("tipoSangre").value = datos1.tipoSangre || "";
         document.getElementById("padecimiento").value = datos1.padecimiento || "";
         document.getElementById("nacionalidad").value = datos1.nacionalidad || "";
-        document.getElementById("pais").value = datos1.pas || "";
+        document.getElementById("pais").value = datos1.pais || "";
         document.getElementById("sexoDisplay").textContent = datos1.sexo || "";
         document.getElementById("discapacidadDisplay").textContent = datos1.discapacidad || "";
         document.getElementById("especialidad").value = datos1.especialidad || "";
@@ -606,13 +608,14 @@
                 margin: 3,
                 filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
+                html2canvas: {
+                    scale: 2,
                     useCORS: true,
                     letterRendering: true,
                     scrollX: 0,
                     scrollY: 0,
-                    windowWidth: document.documentElement.offsetWidth
+                    windowWidth: elemento.scrollWidth,
+                    windowHeight: elemento.scrollHeight
                 },
                 jsPDF: {
                     unit: 'mm',
