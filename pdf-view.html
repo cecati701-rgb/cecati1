@@ -148,16 +148,11 @@
         #contenidoPDF .firmas {
             page-break-inside: avoid;
         }
-        #contenidoPDF .break-after {
+        #contenidoPDF .pagebreak {
             page-break-after: always;
             break-after: page;
-        }
-        .pagebreak {
-            page-break-before: always;
-            page-break-after: avoid;
             margin: 0;
             padding: 0;
-            height: 0;
         }
         @media (max-width: 768px) {
             #contenidoPDF {
@@ -329,7 +324,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario">
+        <section class="seccion-formulario pagebreak">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -348,8 +343,6 @@
                 <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
             </div>
         </section>
-
-        <div class="pagebreak"></div>
 
         <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
