@@ -145,20 +145,12 @@
             font-size: 8px;
             margin: 3px 0;
         }
-        #contenidoPDF .documentacion-grid,
-        #contenidoPDF .seccion-extranjeros,
         #contenidoPDF .firmas {
             page-break-inside: avoid;
         }
-        .pagebreak {
-            display: block;
-            page-break-before: always;
-            page-break-after: avoid;
-            margin: 0;
-            padding: 0;
-            height: 0;
-            line-height: 0;
-            font-size: 0;
+        #contenidoPDF .break-after {
+            page-break-after: always;
+            break-after: page;
         }
         @media (max-width: 768px) {
             #contenidoPDF {
@@ -331,7 +323,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario">
+        <section class="seccion-formulario break-after">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -350,8 +342,6 @@
                 <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
             </div>
         </section>
-
-        <div class="pagebreak"></div>
 
         <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
@@ -632,7 +622,7 @@
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css', 'legacy'] }
+                pagebreak: { mode: ['css', 'legacy'], after: '.break-after' }
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
