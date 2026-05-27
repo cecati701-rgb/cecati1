@@ -151,7 +151,13 @@
             page-break-inside: avoid;
         }
         .pagebreak {
+            display: block;
             page-break-before: always;
+            break-before: always;
+            margin: 0;
+            padding: 0;
+            height: 0;
+            line-height: 0;
         }
         @media (max-width: 768px) {
             #contenidoPDF {
@@ -344,9 +350,7 @@
             </div>
         </section>
 
-        <div class="pagebreak"></div>
-
-        <header class="header">
+        <header class="header pagebreak">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
