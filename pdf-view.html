@@ -20,8 +20,8 @@
         #contenidoPDF {
             background: white;
             padding: 8px;
-            width: 216mm;
-            max-width: 216mm;
+            width: 210mm;
+            max-width: 210mm;
             margin: 0 auto;
             font-size: 9px;
             box-sizing: border-box;
@@ -153,11 +153,12 @@
         .pagebreak {
             display: block;
             page-break-before: always;
-            break-before: always;
+            page-break-after: avoid;
             margin: 0;
             padding: 0;
             height: 0;
             line-height: 0;
+            font-size: 0;
         }
         @media (max-width: 768px) {
             #contenidoPDF {
@@ -350,7 +351,9 @@
             </div>
         </section>
 
-        <header class="header pagebreak">
+        <div class="pagebreak"></div>
+
+        <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
