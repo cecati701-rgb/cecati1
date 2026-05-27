@@ -1,0 +1,497 @@
+Perfecto. Antes de escribir código, vamos a hacer exactamente la fase que menciona Joyanes en metodología de programación:
+
+# 1. Análisis del problema
+
+Primero debemos entender:
+
+## ¿Qué problema resuelve el sistema?
+
+Actualmente el formato:
+
+* se llena a mano
+* puede tener errores
+* tarda más tiempo
+* no genera respaldo digital
+* no genera PDF automáticamente
+
+Entonces el sistema resolverá:
+
+✅ Captura digital de reinscripción
+✅ Validación automática de datos
+✅ Generación de PDF
+✅ Facilidad para imprimir
+✅ Mejor organización de información
+
+---
+
+# 2. Objetivo del sistema
+
+Diseñar un sistema web responsivo para el llenado digital de solicitudes de inscripción/reinscripción del CECATI, permitiendo:
+
+* capturar información en 2 páginas
+* validar campos obligatorios
+* generar un PDF descargable
+* facilitar el cambio de logos
+* funcionar en computadora y celular
+
+---
+
+# 3. Entradas del sistema
+
+Ahora vamos a analizar TODA la información que entra.
+
+Esto es MUY importante porque después definiremos:
+
+* inputs HTML
+* tipos de datos
+* validaciones
+* estructura lógica
+
+---
+
+# FORMULARIO 1 — Análisis
+
+## A) Datos generales
+
+| Campo                | Tipo de dato |
+| -------------------- | ------------ |
+| Fecha de inscripción | Fecha        |
+| Número de solicitud  | Texto/Número |
+
+---
+
+## B) Datos del centro
+
+| Campo                   | Tipo  |
+| ----------------------- | ----- |
+| Subdirección/Asistencia | Texto |
+| Clave CCT               | Texto |
+| Centro de capacitación  | Texto |
+
+---
+
+## C) Datos personales
+
+Aquí hay varios tipos.
+
+| Campo            | Tipo         | NN |
+| ---------------- | ------------ | -- |
+| Primer apellido  | Texto        | NN |
+| Segundo apellido | Texto        | NN |
+| Nombre(s)        | Texto        | NN |
+| Sexo             | Lista/Radios | NN |
+| CURP             | Texto        | NN |
+| RFC              | Texto        | NN |
+| Edad             | Número       | NN |
+| Teléfono         | Número       | NN |
+| Fecha nacimiento | Fecha        | NN |
+| Estado civil     | Lista        | NN |
+| Domicilio        | Texto        | NN |
+| Colonia          | Texto        | NN |
+| CP               | Número       | NN |
+| Municipio        | Texto        | NN |
+| Estado           | Texto        | NN |
+| Email            | Email        | NN |
+| Escolaridad      | Lista        | NN |
+| Fecha ingreso    | Fecha        | NN |
+| Tipo sangre      | Lista        | NN |
+| Padecimiento     | Texto        | NN |
+| Nacionalidad     | Texto        | NN |
+| País             | Texto        | NN |
+| Discapacidad     | Sí/No        | NN |
+
+---
+
+## D) Datos generales del curso
+
+| Campo        | Tipo  | NN |
+| ------------ | ----- | -- |
+| Especialidad | Texto | NN |
+| Clave curso  | Texto | NN |
+| Nombre curso | Texto | NN |
+| Horario      | Texto | NN |
+
+---
+
+## E) Documentación entregada
+
+Esto es importante.
+
+Aquí NO son inputs normales.
+
+Son:
+✅ checkboxes
+
+Ejemplo:
+
+* Acta nacimiento
+* CURP
+* INE
+* Comprobante domicilio
+
+Entonces lógicamente el sistema debe guardar:
+
+```plaintext
+ActaNacimiento = true/false
+CURP = true/false
+INE = true/false
+```
+
+---
+
+## F) Datos laborales
+
+| Campo               | Tipo   |
+| ------------------- | ------ |
+| Empresa             | Texto  |
+| Puesto              | Texto  |
+| Antigüedad          | Número |
+| Dirección           | Texto  |
+| Situación trabajo   | Texto  |
+| Ocupación principal | Texto  |
+
+---
+
+# FORMULARIO 2 — Análisis
+
+---
+
+## A) Información estadística
+
+| Campo                       | Tipo   |NN|
+| --------------------------- | ------ |--|
+| Medio por el cual se enteró | Texto  |NN|
+| Motivo capacitación         | Texto  |NN|
+| Personas que trabajan       | Número |NN|
+| Ingresos mensuales          | Número |NN|
+
+---
+
+## B) Bienes y servicios
+
+Aquí nuevamente:
+
+✅ checkboxes
+NN
+Ejemplo:
+
+* Lavadora
+* Celular
+* Automóvil
+* Cable
+* Computadora
+
+---
+
+## C) Tipo de inscripción
+
+| Campo            | Tipo    |
+| ---------------- | ------- |
+| Tipo inscripción | Texto   |
+| No recibo        | Texto   |
+| Cantidad pagada  | Decimal |
+
+---
+
+## D) Becas
+
+| Campo           | Tipo    |
+| --------------- | ------- |
+| Tipo beca       | Texto   |
+| Quién la otorga | Texto   |
+| No recibo       | Texto   |
+| Cantidad pagada | Decimal |
+
+---
+
+# 4. Procesos del sistema
+
+Ahora pensemos como algoritmo.
+
+## ¿Qué debe hacer el sistema?
+
+### PROCESO 1
+
+Mostrar formulario 1.
+
+↓
+
+### PROCESO 2
+
+Validar campos obligatorios.
+
+↓
+
+### PROCESO 3
+
+Guardar temporalmente la información.
+
+↓
+
+### PROCESO 4
+
+Ir a formulario 2.
+
+↓
+
+### PROCESO 5
+
+Validar nuevamente.
+
+↓
+
+### PROCESO 6
+
+Unir información de ambos formularios.
+
+↓
+
+### PROCESO 7
+
+Generar PDF.
+
+↓
+
+### PROCESO 8
+
+Descargar PDF.
+
+---
+
+# 5. Salidas del sistema
+
+¿Qué produce el sistema?
+
+| Salida             | Formato   |
+| ------------------ | --------- |
+| Solicitud completa | PDF       |
+| Validaciones       | Mensajes  |
+| Vista previa       | HTML      |
+| Datos capturados   | Variables |
+
+---
+
+# 6. Restricciones del sistema
+
+Muy importante en análisis.
+
+| Restricción                     | Solución               |
+| ------------------------------- | ---------------------- |
+| Debe funcionar en celular       | Responsive             |
+| Logos deben cambiarse fácil     | Carpeta img            |
+| PDF debe verse igual al formato | CSS tipo hoja          |
+| Sin base de datos por ahora     | LocalStorage/variables |
+| Debe ser fácil de mantener      | Carpetas separadas     |
+
+---
+
+# 7. Diseño lógico del flujo
+
+Ahora piensa esto:
+
+```plaintext
+INICIO
+
+Mostrar Formulario 1
+
+¿Campos obligatorios completos?
+   SI →
+       Guardar datos
+       Ir a Formulario 2
+   NO →
+       Mostrar error
+
+¿Formulario 2 completo?
+   SI →
+       Generar PDF
+   NO →
+       Mostrar error
+
+FIN
+```
+
+---
+
+# Ahora viene la parte importante
+
+Antes de programar, necesito que pienses esto:
+
+## Pregunta de análisis
+
+¿Qué crees que sea mejor para pasar los datos del formulario 1 al formulario 2 SIN usar base de datos todavía?
+
+Te doy pistas:
+
+* variables JS
+* localStorage
+* sessionStorage
+* parámetros URL
+
+Quiero que razones:
+
+si pq por ahora quiero que el formulario funcione bien ya despues implementare la base de datos.
+
+Cuando respondas eso, pasamos al diseño de la estructura HTML/CSS del proyecto.
+
+Muy bien. Ya hiciste un análisis bastante completo y ya estás pensando como diseñador de sistemas, no solo como alguien que “escribe código”.
+
+Ahora razonemos la parte importante:
+
+# ¿Cómo pasar datos entre páginas sin base de datos?
+
+Vamos a analizar cada opción como metodología de programación.
+
+
+# 4. localStorage ← LA MEJOR OPCIÓN
+
+Ahora analiza esto.
+
+## ¿Qué hace?
+
+Guarda información en el navegador.
+
+Aunque:
+
+✅ cambies de página
+✅ recargues
+✅ cierres navegador
+
+Los datos siguen ahí hasta borrarlos.
+
+---
+
+# ¿Por qué es la mejor opción para tu proyecto?
+
+Porque tu sistema:
+
+* tiene 2 páginas
+* aún NO usa base de datos
+* necesita conservar datos
+* generará PDF al final
+
+Entonces el flujo ideal es:
+
+```plaintext id="qj6n4e"
+Formulario 1
+↓
+Guardar datos en localStorage
+↓
+Abrir formulario 2
+↓
+Recuperar datos
+↓
+Generar PDF
+```
+
+---
+
+# Ejemplo lógico
+
+## Página 1
+
+Guardar:
+
+```javascript id="59v1u3"
+localStorage.setItem("nombre", "Juan");
+```
+
+---
+
+## Página 2
+
+Leer:
+
+```javascript id="87g0f2"
+let nombre = localStorage.getItem("nombre");
+```
+
+---
+
+# Ventaja MUY importante
+
+Cuando después uses:
+
+* PHP
+* MySQL
+* XAMPP
+
+La lógica del frontend seguirá funcionando.
+
+Solo cambiarás:
+
+```plaintext id="t5mf6e"
+localStorage
+↓
+Base de datos
+```
+
+Pero toda la interfaz seguirá igual.
+
+Eso es buen diseño modular.
+
+---
+
+# Conclusión del análisis
+
+## Solución elegida:
+
+✅ localStorage
+
+## Porque:
+
+| Razón                  | Resultado |
+| ---------------------- | --------- |
+| Conserva datos         | Sí        |
+| Funciona entre páginas | Sí        |
+| Fácil de usar          | Sí        |
+| Compatible con PDF     | Sí        |
+| No requiere backend    | Sí        |
+| Ideal para prototipo   | Sí        |
+
+---
+
+# Ahora sigue la siguiente fase del libro:
+
+# Diseño del algoritmo y estructura del sistema
+
+Antes de escribir HTML, debemos diseñar:
+
+## 1. Arquitectura del proyecto
+
+## 2. Flujo de navegación
+
+## 3. Distribución visual
+
+## 4. Componentes reutilizables
+
+## 5. Diseño responsive
+
+---
+
+# Pregunta de diseño lógico
+
+Quiero que analices esto antes de programar.
+
+Tendrás MUCHOS campos.
+
+¿Qué crees que sea mejor?
+
+## OPCIÓN B
+
+Separar responsabilidades:
+
+```plaintext id="6avpcq"
+validaciones.js
+storage.js
+pdf.js
+app.js
+```
+
+Piensa como ingeniero:
+
+* mantenimiento
+* orden
+* facilidad para corregir errores
+* escalabilidad
+
+Cuando respondas eso, empezamos el diseño real de carpetas y la estructura HTML de la primera página.

@@ -1,0 +1,263 @@
+﻿*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
+}
+
+.contenedor{
+    max-width:1200px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:30px;
+    border-bottom:3px solid #006341;
+    padding-bottom:20px;
+}
+
+.logo{
+    width:200px;
+    height:auto;
+}
+
+.titulos{
+    text-align:center;
+    flex:1;
+}
+
+.titulos h1{
+    font-size:28px;
+    color:#006341;
+    margin-bottom:10px;
+}
+
+.titulos h2{
+    font-size:22px;
+}
+
+.seccion-formulario{
+    border:2px solid #cccccc;
+    padding:20px;
+    margin-bottom:25px;
+    border-radius:10px;
+}
+
+.seccion-formulario h3{
+    margin-bottom:20px;
+    color:#006341;
+}
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.radio-group{
+    margin-top:20px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.checkbox-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.checkbox-group label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.contenedor-boton{
+    display:flex;
+    justify-content:center;
+    margin-top:30px;
+}
+
+button{
+    background:#006341;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#004d31;
+}
+
+.error{
+    border:2px solid red;
+}
+.error{
+    border:2px solid red;
+}
+
+.firmas{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-top:30px;
+}
+
+.firma{
+    text-align:center;
+}
+
+.linea-firma{
+    height:50px;
+    border-bottom:2px solid #000;
+    margin-top:10px;
+}
+
+.linea-corte{
+    text-align:center;
+    margin:40px 0;
+    padding:20px 0;
+    border-top:3px dashed #000;
+    border-bottom:3px dashed #000;
+}
+
+.linea-corte p{
+    margin:10px 0;
+    font-weight:bold;
+    color:#006341;
+}
+
+.comprobante{
+    background:#f9f9f9;
+    border:3px solid #006341;
+}
+
+.linea-texto{
+    height:40px;
+    border-bottom:1px solid #000;
+    margin-top:5px;
+}
+
+.espacio-sello{
+    height:80px;
+    border:2px dashed #ccc;
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#999;
+}
+
+
+.documentacion-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.documentacion-grid label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:normal;
+    padding:8px;
+    background:#f9f9f9;
+    border-radius:5px;
+    transition:background 0.3s;
+}
+
+.documentacion-grid label:hover{
+    background:#e8e8e8;
+}
+
+.documentacion-grid input[type="checkbox"]{
+    width:auto;
+    padding:0;
+    cursor:pointer;
+}
+
+.seccion-extranjeros{
+    margin-top:20px;
+    padding:15px;
+    background:#fff8e1;
+    border-left:4px solid #ffc107;
+    border-radius:5px;
+}
+
+.seccion-extranjeros h4{
+    margin-bottom:10px;
+    color:#ffc107;
+    font-size:16px;
+}
+
+.seccion-extranjeros label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:normal;
+}
+
+.seccion-extranjeros input[type="checkbox"]{
+    width:auto;
+    padding:0;
+    cursor:pointer;
+}@media(max-width:768px){
+
+    .header{
+        flex-direction:column;
+    }
+
+    .grid-2,
+    .grid-3,
+    .checkbox-group{
+        grid-template-columns:1fr;
+    }
+
+    .logo{
+        width:80px;
+    }
+
+    .titulos h1{
+        font-size:22px;
+    }
+
+}
+

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generando PDF - CECATI</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        body {
+            background: #f0f0f0;
+            padding: 5px;
+            margin: 0;
+        }
+        .loading {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 18px;
+            color: #006341;
+        }
+        #contenidoPDF {
+            background: white;
+            padding: 8px;
+            max-width: 216mm;
+            margin: 0 auto;
+            font-size: 9px;
+        }
+        #contenidoPDF .header {
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+        }
+        #contenidoPDF .logo {
+            width: 80px;
+            height: auto;
+        }
+        #contenidoPDF .titulos h1 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        #contenidoPDF .titulos h2 {
+            font-size: 9px;
+        }
+        #contenidoPDF .seccion-formulario {
+            border: 1px solid #cccccc;
+            padding: 6px;
+            margin-bottom: 6px;
+            border-radius: 3px;
+        }
+        #contenidoPDF .seccion-formulario h3 {
+            margin-bottom: 5px;
+            font-size: 11px;
+        }
+        #contenidoPDF .seccion-formulario h4 {
+            font-size: 9px;
+            margin-top: 5px;
+            margin-bottom: 3px;
+        }
+        #contenidoPDF .grid-2,
+        #contenidoPDF .grid-3 {
+            gap: 5px;
+        }
+        #contenidoPDF label {
+            margin-bottom: 2px;
+            font-size: 8px;
+        }
+        #contenidoPDF input {
+            padding: 3px;
+            font-size: 8px;
+        }
+        #contenidoPDF .radio-group {
+            margin-top: 5px;
+            gap: 10px;
+        }
+        #contenidoPDF .checkbox-group {
+            gap: 4px;
+            grid-template-columns: 1fr 1fr;
+        }
+        #contenidoPDF .checkbox-group label {
+            font-size: 8px;
+        }
+        #contenidoPDF .firmas {
+            gap: 15px;
+            margin-top: 10px;
+        }
+        #contenidoPDF .linea-firma {
+            height: 20px;
+        }
+        #contenidoPDF .linea-corte {
+            margin: 8px 0;
+            padding: 5px 0;
+        }
+        #contenidoPDF .linea-corte p {
+            font-size: 8px;
+            margin: 3px 0;
+        }
+        #contenidoPDF .linea-texto {
+            height: 18px;
+        }
+        #contenidoPDF .espacio-sello {
+            height: 35px;
+        }
+        #contenidoPDF p {
+            font-size: 8px;
+            margin: 3px 0;
+        }
+        .pagebreak {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">Generando PDF... Por favor espere.</div>
+
+    <div class="contenedor" id="contenidoPDF" style="display: none;">
+        <header class="header">
+            <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
+            <div class="titulos">
+                <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
+                <h2>DIRECCION GENERAL DE CENTRO DE FORMACIÓN PARA EL TRABAJO</h2>
+                <br>
+                <h1>Solicitud de Inscripción</h1>
+                <h2>(SI-01)</h2>
+            </div>
+            <img src="img/logo-cecati.png" alt="Logo CECATI" class="logo">
+        </header>
+
+        <section class="seccion-formulario">
+            <h3>Datos Generales</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Fecha de inscripción</label>
+                    <input type="text" id="fechaInscripcion" readonly>
+                </div>
+                <div>
+                    <label>Número de solicitud</label>
+                    <input type="text" id="numeroSolicitud" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>Datos Personales</h3>
+            <div class="grid-3">
+                <div>
+                    <label>Primer apellido</label>
+                    <input type="text" id="apellido1" readonly>
+                </div>
+                <div>
+                    <label>Segundo apellido</label>
+                    <input type="text" id="apellido2" readonly>
+                </div>
+                <div>
+                    <label>Nombre(s)</label>
+                    <input type="text" id="nombre" readonly>
+                </div>
+                <div>
+                    <label>CURP</label>
+                    <input type="text" id="curp" readonly>
+                </div>
+                <div>
+                    <label>RFC</label>
+                    <input type="text" id="rfc" readonly>
+                </div>
+                <div>
+                    <label>Edad</label>
+                    <input type="text" id="edad" readonly>
+                </div>
+                <div>
+                    <label>Teléfono</label>
+                    <input type="text" id="telefono" readonly>
+                </div>
+                <div>
+                    <label>Correo</label>
+                    <input type="text" id="correo" readonly>
+                </div>
+                <div>
+                    <label>Fecha nacimiento</label>
+                    <input type="text" id="fechaNacimiento" readonly>
+                </div>
+                <div>
+                    <label>Estado civil</label>
+                    <input type="text" id="estadoCivil" readonly>
+                </div>
+                <div>
+                    <label>Domicilio</label>
+                    <input type="text" id="domicilioText" readonly>
+                </div>
+                <div>
+                    <label>Colonia</label>
+                    <input type="text" id="colonia" readonly>
+                </div>
+                <div>
+                    <label>Código postal</label>
+                    <input type="text" id="codigoPostal" readonly>
+                </div>
+                <div>
+                    <label>Municipio o delegación</label>
+                    <input type="text" id="municipio" readonly>
+                </div>
+                <div>
+                    <label>Estado</label>
+                    <input type="text" id="estadoText" readonly>
+                </div>
+                <div>
+                    <label>Fecha de ingreso</label>
+                    <input type="text" id="fechaIngreso" readonly>
+                </div>
+                <div>
+                    <label>Escolaridad</label>
+                    <input type="text" id="escolaridad" readonly>
+                </div>
+                <div>
+                    <label>Tipo de sangre</label>
+                    <input type="text" id="tipoSangre" readonly>
+                </div>
+                <div>
+                    <label>Padecimiento</label>
+                    <input type="text" id="padecimiento" readonly>
+                </div>
+                <div>
+                    <label>Nacionalidad</label>
+                    <input type="text" id="nacionalidad" readonly>
+                </div>
+                <div>
+                    <label>PAIS</label>
+                    <input type="text" id="pais" readonly>
+                </div>
+            </div>
+            <div class="radio-group">
+                <label>Sexo: <span id="sexoDisplay"></span></label>
+            </div>
+            <div class="radio-group">
+                <label>Discapacidad que presenta: <span id="discapacidadDisplay"></span></label>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>DATOS GENERALES</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Especialidad</label>
+                    <input type="text" id="especialidad" readonly>
+                </div>
+                <div>
+                    <label>Clave Curso</label>
+                    <input type="text" id="claveCurso" readonly>
+                </div>
+                <div>
+                    <label>Nombre del Curso</label>
+                    <input type="text" id="nombreCurso" readonly>
+                </div>
+                <div>
+                    <label>Horario</label>
+                    <input type="text" id="horario" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>Documentación Entregada</h3>
+            <div class="grid-2">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
+                    <label><input type="checkbox" id="curpDoc" disabled> CURP</label>
+                    <label><input type="checkbox" id="ine" disabled> INE</label>
+                    <label><input type="checkbox" id="domicilio" disabled> Comprobante domicilio</label>
+                    <label><input type="checkbox" id="cartillaMilitar" disabled> Cartilla del servicio militar nacional</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="licenciaManejo" disabled> Licencia de manejo</label>
+                    <label><input type="checkbox" id="credencialImssIssste" disabled> Credencial de IMSS o ISSSTE</label>
+                    <label><input type="checkbox" id="comprobanteEstudios" disabled> Comprobante de estudios</label>
+                    <label><input type="checkbox" id="fotografias" disabled> Dos fotografías</label>
+                    <label><input type="checkbox" id="cartillaVacunacion" disabled> Cartilla nacional de vacunación o de salud</label>
+                </div>
+            </div>
+            <br>
+            <h4>Extranjeros</h4>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
+            </div>
+        </section>
+
+        <div class="pagebreak"></div>
+
+        <header class="header">
+            <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
+            <div class="titulos">
+                <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
+                <h2>DIRECCION GENERAL DE CENTRO DE FORMACIÓN PARA EL TRABAJO</h2>
+                <br>
+                <h1>Solicitud de Inscripción</h1>
+                <h2>(SI-01)</h2>
+            </div>
+            <img src="img/logo-cecati.png" alt="Logo CECATI" class="logo">
+        </header>
+
+        <section class="seccion-formulario">
+            <h3>Datos para el centro de capacitación</h3>
+            <div class="grid-2">
+                <div>
+                    <label>¿Cómo se enteró?</label>
+                    <input type="text" id="medio" readonly>
+                </div>
+                <div>
+                    <label>Motivo capacitación</label>
+                    <input type="text" id="motivo" readonly>
+                </div>
+                <div>
+                    <label>Personas que trabajan</label>
+                    <input type="text" id="personasTrabajan" readonly>
+                </div>
+                <div>
+                    <label>Ingresos mensuales</label>
+                    <input type="text" id="ingresos" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>Bienes y Servicios</h3>
+            <div class="grid-2">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="lavadora" disabled> Lavadora</label>
+                    <label><input type="checkbox" id="celular" disabled> Celular</label>
+                    <label><input type="checkbox" id="automovil" disabled> Automóvil</label>
+                    <label><input type="checkbox" id="internet" disabled> Internet</label>
+                    <label><input type="checkbox" id="computadora" disabled> Computadora</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="calentador" disabled> Calentador de tanque</label>
+                    <label><input type="checkbox" id="lineaTelefonica" disabled> Línea telefónica</label>
+                    <label><input type="checkbox" id="televisionCable" disabled> Televisión por cable</label>
+                    <label><input type="checkbox" id="aspiradora" disabled> Aspiradora</label>
+                    <label><input type="checkbox" id="tostadora" disabled> Tostadora de pan</label>
+                    <label><input type="checkbox" id="serviciosPlanta" disabled> Personas en servicios de planta y/o entrada por salida</label>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>TIPO DE INSCRIPCIÓN</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Tipo inscripción</label>
+                    <input type="text" id="tipoInscripcion" readonly>
+                </div>
+                <div>
+                    <label>Número recibo</label>
+                    <input type="text" id="numeroRecibo" readonly>
+                </div>
+                <div>
+                    <label>Cantidad pagada</label>
+                    <input type="text" id="cantidadPagada" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>TIPO DE BECA</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Beca del plantel</label>
+                    <input type="text" id="becaPlantel" readonly>
+                </div>
+                <div>
+                    <label>No. recibo</label>
+                    <input type="text" id="reciboBeca" readonly>
+                </div>
+                <div>
+                    <label>Costo de inscripción</label>
+                    <input type="text" id="costoInscripcion" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>OTRO TIPO DE BECA</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Quién la otorga</label>
+                    <input type="text" id="quienOtorga" readonly>
+                </div>
+                <div>
+                    <label>No. recibo</label>
+                    <input type="text" id="reciboOtroBeca" readonly>
+                </div>
+                <div>
+                    <label>Cantidad pagada</label>
+                    <input type="text" id="cantidadOtroBeca" readonly>
+                </div>
+            </div>
+        </section>
+
+        <section class="seccion-formulario">
+            <h3>COMPROMISO</h3>
+            <p>EL ASPIRANTE SE COMPROMETE A CUMPLIR CON LAS NORMAS Y DISPOSICIONES DICTADAS POR LAS AUTORIDADES DEL CENTRO</p>
+            <div class="firmas">
+                <div class="firma">
+                    <label>NOMBRE Y FIRMA DEL ASPIRANTE</label>
+                    <div class="linea-firma"></div>
+                </div>
+                <div class="firma">
+                    <label>NOMBRE Y FIRMA DE LA PERSONA QUE RECIBE</label>
+                    <div class="linea-firma"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="linea-corte">
+            <p>─────────────────────────────────────────────────────────────────────────────────────────────────────────</p>
+            <p><strong>RECORTAR AQUÍ</strong></p>
+            <p>─────────────────────────────────────────────────────────────────────────────────────────────────────────</p>
+        </div>
+
+        <section class="seccion-formulario comprobante">
+            <h3>COMPROBANTE DE ALUMNO</h3>
+            <div class="grid-2">
+                <div>
+                    <label>Fecha de solicitud</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Número de solicitud</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Alumno</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Num de control</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Clave del curso</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Nombre del curso</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Horario</label>
+                    <div class="linea-texto"></div>
+                </div>
+                <div>
+                    <label>Servicio</label>
+                    <div class="linea-texto"></div>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <label>Nombre y firma de la persona que recibe</label>
+                    <div class="linea-firma"></div>
+                </div>
+                <div>
+                    <label>Sello</label>
+                    <div class="espacio-sello"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // Cargar datos de localStorage
+        const datos1 = JSON.parse(localStorage.getItem("formulario1")) || {};
+        const datos2 = JSON.parse(localStorage.getItem("formulario2")) || {};
+
+        // Llenar campos del formulario1
+        document.getElementById("fechaInscripcion").value = datos1.fechaInscripcion || "";
+        document.getElementById("numeroSolicitud").value = datos1.numeroSolicitud || "";
+        document.getElementById("apellido1").value = datos1.apellido1 || "";
+        document.getElementById("apellido2").value = datos1.apellido2 || "";
+        document.getElementById("nombre").value = datos1.nombre || "";
+        document.getElementById("curp").value = datos1.curp || "";
+        document.getElementById("rfc").value = datos1.rfc || "";
+        document.getElementById("edad").value = datos1.edad || "";
+        document.getElementById("telefono").value = datos1.telefono || "";
+        document.getElementById("correo").value = datos1.correo || "";
+        document.getElementById("fechaNacimiento").value = datos1.fechaNacimiento || "";
+        document.getElementById("estadoCivil").value = datos1.estadoCivil || "";
+        document.getElementById("domicilioText").value = datos1.domicilioText || "";
+        document.getElementById("colonia").value = datos1.colonia || "";
+        document.getElementById("codigoPostal").value = datos1.codigoPostal || "";
+        document.getElementById("municipio").value = datos1.municipio || "";
+        document.getElementById("estadoText").value = datos1.estadoText || "";
+        document.getElementById("fechaIngreso").value = datos1.fechaIngreso || "";
+        document.getElementById("escolaridad").value = datos1.escolaridad || "";
+        document.getElementById("tipoSangre").value = datos1.tipoSangre || "";
+        document.getElementById("padecimiento").value = datos1.padecimiento || "";
+        document.getElementById("nacionalidad").value = datos1.nacionalidad || "";
+        document.getElementById("pais").value = datos1.pas || "";
+        document.getElementById("sexoDisplay").textContent = datos1.sexo || "";
+        document.getElementById("discapacidadDisplay").textContent = datos1.discapacidad || "";
+        document.getElementById("especialidad").value = datos1.especialidad || "";
+        document.getElementById("claveCurso").value = datos1.claveCurso || "";
+        document.getElementById("nombreCurso").value = datos1.nombreCurso || "";
+        document.getElementById("horario").value = datos1.horario || "";
+
+        // Checkboxes del formulario1
+        document.getElementById("acta").checked = datos1.acta || false;
+        document.getElementById("curpDoc").checked = datos1.curpDoc || false;
+        document.getElementById("ine").checked = datos1.ine || false;
+        document.getElementById("domicilio").checked = datos1.domicilio || false;
+        document.getElementById("cartillaMilitar").checked = datos1.cartillaMilitar || false;
+        document.getElementById("licenciaManejo").checked = datos1.licenciaManejo || false;
+        document.getElementById("credencialImssIssste").checked = datos1.credencialImssIssste || false;
+        document.getElementById("comprobanteEstudios").checked = datos1.comprobanteEstudios || false;
+        document.getElementById("fotografias").checked = datos1.fotografias || false;
+        document.getElementById("cartillaVacunacion").checked = datos1.cartillaVacunacion || false;
+        document.getElementById("comprobanteEstancia").checked = datos1.comprobanteEstancia || false;
+
+        // Llenar campos del formulario2
+        document.getElementById("medio").value = datos2.medio || "";
+        document.getElementById("motivo").value = datos2.motivo || "";
+        document.getElementById("personasTrabajan").value = datos2.personasTrabajan || "";
+        document.getElementById("ingresos").value = datos2.ingresos || "";
+        document.getElementById("tipoInscripcion").value = datos2.tipoInscripcion || "";
+        document.getElementById("numeroRecibo").value = datos2.numeroRecibo || "";
+        document.getElementById("cantidadPagada").value = datos2.cantidadPagada || "";
+        document.getElementById("becaPlantel").value = datos2.becaPlantel || "";
+        document.getElementById("reciboBeca").value = datos2.reciboBeca || "";
+        document.getElementById("costoInscripcion").value = datos2.costoInscripcion || "";
+        document.getElementById("quienOtorga").value = datos2.quienOtorga || "";
+        document.getElementById("reciboOtroBeca").value = datos2.reciboOtroBeca || "";
+        document.getElementById("cantidadOtroBeca").value = datos2.cantidadOtroBeca || "";
+
+        // Checkboxes del formulario2
+        document.getElementById("lavadora").checked = datos2.lavadora || false;
+        document.getElementById("celular").checked = datos2.celular || false;
+        document.getElementById("automovil").checked = datos2.automovil || false;
+        document.getElementById("internet").checked = datos2.internet || false;
+        document.getElementById("computadora").checked = datos2.computadora || false;
+        document.getElementById("calentador").checked = datos2.calentador || false;
+        document.getElementById("lineaTelefonica").checked = datos2.lineaTelefonica || false;
+        document.getElementById("televisionCable").checked = datos2.televisionCable || false;
+        document.getElementById("aspiradora").checked = datos2.aspiradora || false;
+        document.getElementById("tostadora").checked = datos2.tostadora || false;
+        document.getElementById("serviciosPlanta").checked = datos2.serviciosPlanta || false;
+
+        // Mostrar el contenido y generar PDF
+        document.querySelector('.loading').style.display = 'none';
+        document.getElementById('contenidoPDF').style.display = 'block';
+
+        setTimeout(() => {
+            const elemento = document.getElementById("contenidoPDF");
+            const opciones = {
+                margin: 3,
+                filename: 'Solicitud_CECATI.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'letter',
+                    orientation: 'portrait'
+                },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            html2pdf().set(opciones).from(elemento).save().then(() => {
+                window.close();
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
