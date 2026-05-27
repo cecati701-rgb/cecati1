@@ -20,7 +20,7 @@
         #contenidoPDF {
             background: white;
             padding: 8px;
-            width: min(100%, 216mm);
+            width: 216mm;
             max-width: 216mm;
             margin: 0 auto;
             font-size: 9px;
@@ -144,6 +144,12 @@
         #contenidoPDF p {
             font-size: 8px;
             margin: 3px 0;
+        }
+        #contenidoPDF .seccion-formulario,
+        #contenidoPDF .documentacion-grid,
+        #contenidoPDF .seccion-extranjeros,
+        #contenidoPDF .firmas {
+            page-break-inside: avoid;
         }
         .pagebreak {
             page-break-before: always;
@@ -613,9 +619,7 @@
                     useCORS: true,
                     letterRendering: true,
                     scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: elemento.scrollWidth,
-                    windowHeight: elemento.scrollHeight
+                    scrollY: 0
                 },
                 jsPDF: {
                     unit: 'mm',
