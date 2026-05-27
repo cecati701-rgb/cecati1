@@ -148,6 +148,10 @@
         #contenidoPDF .firmas {
             page-break-inside: avoid;
         }
+        #contenidoPDF .break-after {
+            page-break-after: always;
+            break-after: page;
+        }
         @media (max-width: 768px) {
             #contenidoPDF {
                 padding: 5px;
@@ -318,7 +322,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario">
+        <section class="seccion-formulario break-after">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -616,7 +620,7 @@
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css', 'legacy'] }
+                pagebreak: { mode: ['css', 'legacy'], after: '.break-after' }
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
