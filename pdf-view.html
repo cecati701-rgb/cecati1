@@ -27,8 +27,8 @@
             box-sizing: border-box;
         }
         #contenidoPDF .header {
-            margin-bottom: 4px;
-            padding-bottom: 2px;
+            margin: 0;
+            padding: 2px;
         }
         #contenidoPDF .logo {
             width: 80px;
@@ -36,10 +36,11 @@
         }
         #contenidoPDF .titulos h1 {
             font-size: 14px;
-            margin-bottom: 3px;
+            margin: 0 0 1px 0;
         }
         #contenidoPDF .titulos h2 {
             font-size: 9px;
+            margin: 0;
         }
         #contenidoPDF .seccion-formulario {
             border: 1px solid #cccccc;
@@ -156,14 +157,25 @@
         #contenidoPDF .comprobante {
             page-break-inside: avoid;
         }
-        @media (max-width: 768px) {
+       @media (max-width: 768px) {
             #contenidoPDF {
-                padding: 2px;
+                padding: 0;
                 font-size: 8px;
+            }
+            #contenidoPDF .header {
+                margin: 0;
+                padding: 2px;
             }
             #contenidoPDF .seccion-formulario {
                 padding: 3px;
                 margin-bottom: 2px;
+                margin-top: 0;
+            }
+           #contenidoPDF .comprobante {
+                margin-top: -8px;
+            }
+            #contenidoPDF .seccion-formulario:first-of-type {
+                margin-top: 0;
             }
             #contenidoPDF .documentacion-grid {
                 grid-template-columns: 1fr;
@@ -174,11 +186,6 @@
             #contenidoPDF .grid-3 {
                 grid-template-columns: 1fr;
                 gap: 2px;
-            }
-            #contenidoPDF .header {
-                flex-direction: column;
-                text-align: center;
-                margin-bottom: 2px;
             }
             #contenidoPDF .logo {
                 width: 60px;
@@ -617,7 +624,7 @@
             const elemento = document.getElementById("contenidoPDF");
             const isMobile = window.innerWidth <= 768;
             const opciones = {
-                margin: isMobile ? 2 : 3,
+                margin: isMobile ? 1.5 : 3,
                 filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
@@ -625,15 +632,18 @@
                     useCORS: true,
                     letterRendering: true,
                     scrollX: 0,
-                    scrollY: 0
+                    scrollY: 0,
+                    allowTaint: true
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'letter',
-                    orientation: 'portrait'
+                    orientation: 'portrait',
+                    compress: true
                 },
-                pagebreak: { mode: ['css', 'legacy'] }
+                pagebreak: { mode: 'css', before: ['.linea-corte'], avoid: ['.seccion-formulario'] }
             };
+
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
                 window.close();
