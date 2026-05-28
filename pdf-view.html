@@ -347,6 +347,8 @@
             </div>
         </section>
 
+        <div class="pagebreak"></div>
+
         <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
@@ -619,14 +621,15 @@
                     useCORS: true,
                     letterRendering: true,
                     scrollX: 0,
-                    scrollY: 0
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css'] }
+                pagebreak: { mode: ['css'], avoid: '.seccion-formulario' }
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
