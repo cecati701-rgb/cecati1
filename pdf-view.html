@@ -758,9 +758,10 @@
             };
 
             html2pdf().set(opciones).from(elemento).toPdf().get('pdf').then((pdf) => {
-                const totalPaginas = pdf.internal.getNumberOfPages();
-                if (esMovil && totalPaginas === 3) {
-                    pdf.deletePage(3);
+                if (esMovil) {
+                    while (pdf.internal.getNumberOfPages() > 2) {
+                        pdf.deletePage(pdf.internal.getNumberOfPages());
+                    }
                 }
                 pdf.save('Solicitud_CECATI.pdf');
                 window.close();
