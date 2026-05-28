@@ -633,7 +633,8 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
     <script>
         // Cargar datos de localStorage
         const datos1 = JSON.parse(localStorage.getItem("formulario1")) || {};
@@ -726,39 +727,16 @@
             }));
         }
 
-        function agregarCanvasAPdf(pdf, canvas, esPrimeraPagina) {
-            const margenSup = 2;
-            const margenLat = 3;
-            const anchoPagina = pdf.internal.pageSize.getWidth();
-            const altoPagina = pdf.internal.pageSize.getHeight();
-            const anchoUtil = anchoPagina - (margenLat * 2);
-            const altoUtil = altoPagina - margenSup - 3;
-
-            if (!esPrimeraPagina) {
-                pdf.addPage();
-            }
-
-            const imgData = canvas.toDataURL('image/jpeg', 0.98);
-            let altoImg = (canvas.height * anchoUtil) / canvas.width;
-            let anchoImg = anchoUtil;
-
-            if (altoImg > altoUtil) {
-                altoImg = altoUtil;
-                anchoImg = (canvas.width * altoImg) / canvas.height;
-            }
-
-            const offsetX = margenLat + (anchoUtil - anchoImg) / 2;
-            pdf.addImage(imgData, 'JPEG', offsetX, margenSup, anchoImg, altoImg);
-        }
-
         function generarPDF() {
-            const pagina1 = document.querySelector('.pdf-pagina-1');
-            const pagina2 = document.querySelector('.pdf-pagina-2');
+            const elemento = document.getElementById("contenidoPDF");
             const anchoCapturaPx = 794;
+            const esMovil = window.innerWidth <= 768;
 
             window.scrollTo(0, 0);
 
-            const opcionesBase = {
+            const opciones = {
+                margin: [2, 3, 3, 3],
+                filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
@@ -775,27 +753,17 @@
                     unit: 'mm',
                     format: 'letter',
                     orientation: 'portrait'
-                }
+                },
+                pagebreak: { mode: ['css'], after: '.pdf-pagina-1' }
             };
 
-            const opcionesPagina1 = Object.assign({}, opcionesBase, {
-                margin: [2, 3, 3, 3]
-            });
-
-            const opcionesPagina2 = Object.assign({}, opcionesBase, {
-                margin: 0
-            });
-
-            function capturarCanvas(bloque) {
-                return html2pdf().set(opcionesPagina2).from(bloque).toCanvas().get('canvas');
-            }
-
-            html2pdf().set(opcionesPagina1).from(pagina1).toPdf().get('pdf').then((pdf) => {
-                return capturarCanvas(pagina2).then((canvas2) => {
-                    agregarCanvasAPdf(pdf, canvas2, false);
-                    pdf.save('Solicitud_CECATI.pdf');
-                    window.close();
-                });
+            html2pdf().set(opciones).from(elemento).toPdf().get('pdf').then((pdf) => {
+                const totalPaginas = pdf.internal.getNumberOfPages();
+                if (esMovil && totalPaginas === 3) {
+                    pdf.deletePage(3);
+                }
+                pdf.save('Solicitud_CECATI.pdf');
+                window.close();
             }).catch((err) => {
                 console.error('Error al generar PDF:', err);
             });
