@@ -41,14 +41,81 @@
             margin-bottom: 4px;
             padding-bottom: 2px;
         }
-        #contenidoPDF .header-pagina-2 {
-            page-break-before: always;
-            break-before: page;
-            margin-top: 0 !important;
-            padding-top: 0;
+        #contenidoPDF .pdf-pagina-1 {
+            page-break-after: always;
+            break-after: page;
         }
-        #contenidoPDF .seccion-antes-pagina2 {
-            margin-bottom: 0;
+        #contenidoPDF .pdf-pagina-1 .seccion-formulario {
+            padding: 3px;
+            margin-bottom: 2px;
+        }
+        #contenidoPDF .pdf-pagina-1 .documentacion-grid label {
+            padding: 4px;
+        }
+        #contenidoPDF .pdf-pagina-1 .seccion-extranjeros {
+            padding: 3px;
+        }
+        #contenidoPDF .pdf-pagina-1 .seccion-extranjeros h4 {
+            margin-bottom: 4px;
+        }
+        #contenidoPDF .pdf-pagina-1 .grid-2,
+        #contenidoPDF .pdf-pagina-1 .grid-3 {
+            gap: 4px;
+        }
+        #contenidoPDF .pdf-pagina-1 .radio-group {
+            margin-top: 3px;
+        }
+        #contenidoPDF .pdf-pagina-2 {
+            margin: 0;
+            padding: 0;
+        }
+        #contenidoPDF .pdf-pagina-2 .header {
+            margin-top: 0;
+            margin-bottom: 3px;
+            padding-bottom: 1px;
+        }
+        #contenidoPDF .pdf-pagina-2 .seccion-formulario {
+            padding: 3px;
+            margin-bottom: 2px;
+        }
+        #contenidoPDF .pdf-pagina-2 .seccion-formulario h3 {
+            font-size: 10px;
+            margin-bottom: 1px;
+        }
+        #contenidoPDF .pdf-pagina-2 label {
+            margin-bottom: 1px;
+            font-size: 7.5px;
+        }
+        #contenidoPDF .pdf-pagina-2 input {
+            padding: 2px;
+            font-size: 7.5px;
+        }
+        #contenidoPDF .pdf-pagina-2 .checkbox-group label {
+            font-size: 7.5px;
+        }
+        #contenidoPDF .pdf-pagina-2 .grid-2,
+        #contenidoPDF .pdf-pagina-2 .grid-3 {
+            gap: 3px;
+        }
+        #contenidoPDF .pdf-pagina-2 .firmas {
+            margin-top: 5px;
+            gap: 10px;
+        }
+        #contenidoPDF .pdf-pagina-2 .linea-firma {
+            height: 16px;
+        }
+        #contenidoPDF .pdf-pagina-2 .linea-corte {
+            margin: 4px 0;
+            padding: 2px 0;
+        }
+        #contenidoPDF .pdf-pagina-2 .linea-texto {
+            height: 14px;
+        }
+        #contenidoPDF .pdf-pagina-2 .espacio-sello {
+            height: 28px;
+        }
+        #contenidoPDF .pdf-pagina-2 p {
+            font-size: 7.5px;
         }
         #contenidoPDF .logo {
             width: 80px;
@@ -201,6 +268,7 @@
     <div class="loading">Generando PDF... Por favor espere.</div>
 
     <div class="contenedor" id="contenidoPDF" style="display: none;">
+        <div class="pdf-pagina-1">
         <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
@@ -344,7 +412,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario seccion-antes-pagina2">
+        <section class="seccion-formulario">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -363,8 +431,10 @@
                 <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
             </div>
         </section>
+        </div>
 
-        <header class="header header-pagina-2">
+        <div class="pdf-pagina-2">
+        <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
@@ -540,6 +610,7 @@
                 </div>
             </div>
         </section>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -633,7 +704,7 @@
 
             const alturaContenido = elemento.scrollHeight;
             const opciones = {
-                margin: 3,
+                margin: [2, 3, 3, 3],
                 filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
@@ -654,7 +725,7 @@
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css'], before: '.header-pagina-2' }
+                pagebreak: { mode: ['css'], after: '.pdf-pagina-1' }
             };
 
             html2pdf().set(opciones).from(elemento).toPdf().get('pdf').then((pdf) => {
