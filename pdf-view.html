@@ -117,6 +117,26 @@
         #contenidoPDF .pdf-pagina-2 p {
             font-size: 7.5px;
         }
+        #contenidoPDF .pdf-pagina-2 .linea-corte p {
+            margin: 0;
+            line-height: 1.1;
+        }
+        #contenidoPDF .pdf-pagina-2 .comprobante {
+            padding: 2px;
+            margin-bottom: 0;
+        }
+        #contenidoPDF .pdf-pagina-2 .comprobante .grid-2 {
+            gap: 2px;
+        }
+        #contenidoPDF .pdf-pagina-2 .comprobante .linea-texto {
+            height: 12px;
+        }
+        #contenidoPDF .pdf-pagina-2 .comprobante .linea-firma {
+            height: 14px;
+        }
+        #contenidoPDF .pdf-pagina-2 .comprobante .espacio-sello {
+            height: 22px;
+        }
         #contenidoPDF .logo {
             width: 80px;
             height: auto;
@@ -695,17 +715,51 @@
         document.querySelector('.loading').style.display = 'none';
         document.getElementById('contenidoPDF').style.display = 'block';
 
-        setTimeout(() => {
-            const elemento = document.getElementById("contenidoPDF");
-            // Ancho fijo (210mm) para que la captura use el mismo diseño en móvil y escritorio
+        function esperarImagenes(contenedor) {
+            const imgs = contenedor.querySelectorAll('img');
+            return Promise.all(Array.from(imgs).map((img) => {
+                if (img.complete) return Promise.resolve();
+                return new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                });
+            }));
+        }
+
+        function agregarCanvasAPdf(pdf, canvas, esPrimeraPagina) {
+            const margenSup = 2;
+            const margenLat = 3;
+            const anchoPagina = pdf.internal.pageSize.getWidth();
+            const altoPagina = pdf.internal.pageSize.getHeight();
+            const anchoUtil = anchoPagina - (margenLat * 2);
+            const altoUtil = altoPagina - margenSup - 3;
+
+            if (!esPrimeraPagina) {
+                pdf.addPage();
+            }
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            let altoImg = (canvas.height * anchoUtil) / canvas.width;
+            let anchoImg = anchoUtil;
+
+            if (altoImg > altoUtil) {
+                altoImg = altoUtil;
+                anchoImg = (canvas.width * altoImg) / canvas.height;
+            }
+
+            const offsetX = margenLat + (anchoUtil - anchoImg) / 2;
+            pdf.addImage(imgData, 'JPEG', offsetX, margenSup, anchoImg, altoImg);
+        }
+
+        function generarPDF() {
+            const pagina1 = document.querySelector('.pdf-pagina-1');
+            const pagina2 = document.querySelector('.pdf-pagina-2');
             const anchoCapturaPx = 794;
 
             window.scrollTo(0, 0);
 
-            const alturaContenido = elemento.scrollHeight;
-            const opciones = {
-                margin: [2, 3, 3, 3],
-                filename: 'Solicitud_CECATI.pdf',
+            const opcionesCanvas = {
+                margin: 0,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
@@ -716,25 +770,38 @@
                     x: 0,
                     y: 0,
                     windowWidth: anchoCapturaPx,
-                    width: anchoCapturaPx,
-                    height: alturaContenido,
-                    windowHeight: alturaContenido
+                    width: anchoCapturaPx
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'letter',
                     orientation: 'portrait'
-                },
-                pagebreak: { mode: ['css'], after: '.pdf-pagina-1' }
+                }
             };
 
-            html2pdf().set(opciones).from(elemento).toPdf().get('pdf').then((pdf) => {
-                while (pdf.internal.getNumberOfPages() > 2) {
-                    pdf.deletePage(pdf.internal.getNumberOfPages());
-                }
+            function capturarCanvas(bloque) {
+                return html2pdf().set(opcionesCanvas).from(bloque).toCanvas().get('canvas');
+            }
+
+            Promise.all([
+                capturarCanvas(pagina1),
+                capturarCanvas(pagina2)
+            ]).then(([canvas1, canvas2]) => {
+                const JsPDF = window.jspdf.jsPDF;
+                const pdf = new JsPDF({
+                    unit: 'mm',
+                    format: 'letter',
+                    orientation: 'portrait'
+                });
+                agregarCanvasAPdf(pdf, canvas1, true);
+                agregarCanvasAPdf(pdf, canvas2, false);
                 pdf.save('Solicitud_CECATI.pdf');
                 window.close();
             });
+        }
+
+        setTimeout(() => {
+            esperarImagenes(document.getElementById("contenidoPDF")).then(generarPDF);
         }, 1000);
     </script>
 </body>
