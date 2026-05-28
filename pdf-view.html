@@ -6,10 +6,15 @@
     <title>Generando PDF - CECATI</title>
     <link rel="stylesheet" href="css/estilos.css">
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: auto;
+            overflow-x: hidden;
+        }
         body {
             background: #f0f0f0;
             padding: 5px;
-            margin: 0;
         }
         .loading {
             text-align: center;
@@ -25,10 +30,25 @@
             margin: 0 auto;
             font-size: 9px;
             box-sizing: border-box;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        #contenidoPDF.contenedor {
+            max-width: 210mm;
+            padding: 5px;
         }
         #contenidoPDF .header {
-            margin: 0;
-            padding: 2px;
+            margin-bottom: 4px;
+            padding-bottom: 2px;
+        }
+        #contenidoPDF .header-pagina-2 {
+            page-break-before: always;
+            break-before: page;
+            margin-top: 0 !important;
+            padding-top: 0;
+        }
+        #contenidoPDF .seccion-antes-pagina2 {
+            margin-bottom: 0;
         }
         #contenidoPDF .logo {
             width: 80px;
@@ -36,11 +56,10 @@
         }
         #contenidoPDF .titulos h1 {
             font-size: 14px;
-            margin: 0 0 1px 0;
+            margin-bottom: 3px;
         }
         #contenidoPDF .titulos h2 {
             font-size: 9px;
-            margin: 0;
         }
         #contenidoPDF .seccion-formulario {
             border: 1px solid #cccccc;
@@ -148,34 +167,14 @@
         #contenidoPDF .firmas {
             page-break-inside: avoid;
         }
-        #contenidoPDF .pagebreak {
-            page-break-after: always;
-            break-after: page;
-            margin: 0;
-            padding: 0;
-        }
-        #contenidoPDF .comprobante {
-            page-break-inside: avoid;
-        }
-       @media (max-width: 768px) {
+        @media (max-width: 768px) {
             #contenidoPDF {
-                padding: 0;
-                font-size: 8px;
-            }
-            #contenidoPDF .header {
-                margin: 0;
                 padding: 2px;
+                font-size: 8px;
             }
             #contenidoPDF .seccion-formulario {
                 padding: 3px;
                 margin-bottom: 2px;
-                margin-top: 0;
-            }
-           #contenidoPDF .comprobante {
-                margin-top: -8px;
-            }
-            #contenidoPDF .seccion-formulario:first-of-type {
-                margin-top: 0;
             }
             #contenidoPDF .documentacion-grid {
                 grid-template-columns: 1fr;
@@ -186,6 +185,11 @@
             #contenidoPDF .grid-3 {
                 grid-template-columns: 1fr;
                 gap: 2px;
+            }
+            #contenidoPDF .header {
+                flex-direction: column;
+                text-align: center;
+                margin-bottom: 2px;
             }
             #contenidoPDF .logo {
                 width: 60px;
@@ -340,7 +344,7 @@
             </div>
         </section>
 
-        <section class="seccion-formulario pagebreak">
+        <section class="seccion-formulario seccion-antes-pagina2">
             <h3>Documentación Entregada</h3>
             <div class="documentacion-grid">
                 <label><input type="checkbox" id="acta" disabled> Acta de nacimiento</label>
@@ -360,7 +364,7 @@
             </div>
         </section>
 
-        <header class="header">
+        <header class="header header-pagina-2">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
             <div class="titulos">
                 <h2>SUBSECRETARIA DE EDUCACIÓN MEDIA SUPERIOR</h2>
@@ -622,9 +626,14 @@
 
         setTimeout(() => {
             const elemento = document.getElementById("contenidoPDF");
-            const isMobile = window.innerWidth <= 768;
+            // Ancho fijo (210mm) para que la captura use el mismo diseño en móvil y escritorio
+            const anchoCapturaPx = 794;
+
+            window.scrollTo(0, 0);
+
+            const alturaContenido = elemento.scrollHeight;
             const opciones = {
-                margin: isMobile ? 1.5 : 3,
+                margin: 3,
                 filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
@@ -633,19 +642,26 @@
                     letterRendering: true,
                     scrollX: 0,
                     scrollY: 0,
-                    allowTaint: true
+                    x: 0,
+                    y: 0,
+                    windowWidth: anchoCapturaPx,
+                    width: anchoCapturaPx,
+                    height: alturaContenido,
+                    windowHeight: alturaContenido
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'letter',
-                    orientation: 'portrait',
-                    compress: true
+                    orientation: 'portrait'
                 },
-                pagebreak: { mode: 'css', before: ['.linea-corte'], avoid: ['.seccion-formulario'] }
+                pagebreak: { mode: ['css'], before: '.header-pagina-2' }
             };
 
-
-            html2pdf().set(opciones).from(elemento).save().then(() => {
+            html2pdf().set(opciones).from(elemento).toPdf().get('pdf').then((pdf) => {
+                while (pdf.internal.getNumberOfPages() > 2) {
+                    pdf.deletePage(pdf.internal.getNumberOfPages());
+                }
+                pdf.save('Solicitud_CECATI.pdf');
                 window.close();
             });
         }, 1000);
