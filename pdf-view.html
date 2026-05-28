@@ -20,7 +20,7 @@
         #contenidoPDF {
             background: white;
             padding: 5px;
-            width: 210mm;
+            width: 100%;
             max-width: 210mm;
             margin: 0 auto;
             font-size: 9px;
@@ -149,8 +149,8 @@
             page-break-inside: avoid;
         }
         #contenidoPDF .pagebreak {
-            page-break-after: always;
-            break-after: page;
+            page-break-before: always;
+            break-before: page;
             margin: 0;
             padding: 0;
         }
@@ -622,7 +622,9 @@
                     format: 'letter',
                     orientation: 'portrait'
                 },
-                pagebreak: { mode: ['css', 'legacy'] }
+                pagebreak: {
+    mode: ['avoid-all', 'css']
+}
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
