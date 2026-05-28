@@ -758,8 +758,7 @@
 
             window.scrollTo(0, 0);
 
-            const opcionesCanvas = {
-                margin: 0,
+            const opcionesBase = {
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
@@ -779,24 +778,26 @@
                 }
             };
 
+            const opcionesPagina1 = Object.assign({}, opcionesBase, {
+                margin: [2, 3, 3, 3]
+            });
+
+            const opcionesPagina2 = Object.assign({}, opcionesBase, {
+                margin: 0
+            });
+
             function capturarCanvas(bloque) {
-                return html2pdf().set(opcionesCanvas).from(bloque).toCanvas().get('canvas');
+                return html2pdf().set(opcionesPagina2).from(bloque).toCanvas().get('canvas');
             }
 
-            Promise.all([
-                capturarCanvas(pagina1),
-                capturarCanvas(pagina2)
-            ]).then(([canvas1, canvas2]) => {
-                const JsPDF = window.jspdf.jsPDF;
-                const pdf = new JsPDF({
-                    unit: 'mm',
-                    format: 'letter',
-                    orientation: 'portrait'
+            html2pdf().set(opcionesPagina1).from(pagina1).toPdf().get('pdf').then((pdf) => {
+                return capturarCanvas(pagina2).then((canvas2) => {
+                    agregarCanvasAPdf(pdf, canvas2, false);
+                    pdf.save('Solicitud_CECATI.pdf');
+                    window.close();
                 });
-                agregarCanvasAPdf(pdf, canvas1, true);
-                agregarCanvasAPdf(pdf, canvas2, false);
-                pdf.save('Solicitud_CECATI.pdf');
-                window.close();
+            }).catch((err) => {
+                console.error('Error al generar PDF:', err);
             });
         }
 
