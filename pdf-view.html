@@ -150,6 +150,18 @@
         #contenidoPDF .comprobante {
             page-break-inside: avoid;
         }
+        #contenidoPDF .salto-formulario {
+            page-break-before: always;
+            break-before: page;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        @page {
+            size: letter;
+            margin: 6mm;
+        }
         @media (max-width: 768px) {
             #contenidoPDF {
                 padding: 2px;
@@ -346,6 +358,8 @@
                 <label><input type="checkbox" id="comprobanteEstancia" disabled> Comprobante de estancia legal en el país, expedido por SEGOB</label>
             </div>
         </section>
+
+        <div class="salto-formulario" aria-hidden="true"></div>
 
         <header class="header">
             <img src="img/logo-sep.png" alt="Logo SEP" class="logo">
@@ -611,22 +625,22 @@
             const elemento = document.getElementById("contenidoPDF");
             const isMobile = window.innerWidth <= 768;
             const opciones = {
-                margin: isMobile ? 2 : 3,
+                margin: isMobile ? 1 : 2,
                 filename: 'Solicitud_CECATI.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
-                    scale: 2,
+                    scale: isMobile ? 1.5 : 2,
                     useCORS: true,
                     letterRendering: true,
                     scrollX: 0,
-                    scrollY: 0
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth
                 },
                 jsPDF: {
                     unit: 'mm',
                     format: 'letter',
                     orientation: 'portrait'
-                },
-                pagebreak: { mode: ['css'] }
+                }
             };
 
             html2pdf().set(opciones).from(elemento).save().then(() => {
