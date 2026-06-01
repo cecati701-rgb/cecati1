@@ -214,6 +214,17 @@ button:hover{
     cursor:pointer;
 }
 
+.lista-errores-validacion{
+    list-style-type:disc;
+    padding-left:1.5rem;
+    margin-bottom:0;
+}
+
+.lista-errores-validacion li{
+    margin-bottom:0.5rem;
+    line-height:1.4;
+}
+
 .seccion-extranjeros{
     margin-top:20px;
     padding:15px;
@@ -255,12 +266,9 @@ button:hover{
         width:100%;
     }
 
-    .checkbox-group{
-        display:grid;
-    }
-
     .documentacion-grid{
         grid-template-columns:1fr;
+        gap:8px;
     }
 
     .logo{
