@@ -170,10 +170,9 @@ function mostrarModalErrores(mensajesError) {
         mensajesError.forEach(mensaje => {
             const li = document.createElement('li');
             li.textContent = mensaje;
-            li.className = 'mb-2';
             listaErrores.appendChild(li);
         });
-        
+
         const modal = new bootstrap.Modal(document.getElementById('modalErrores'));
         modal.show();
     }
